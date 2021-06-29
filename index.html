@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookshelf</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header class="section-header bg-white">
+        <div class="container-header">
+            <h4 id="logo" class="header-title color-secondary font-fraunces">
+                <span style="font-weight: lighter;">my</span>
+                <span style="font-weight: bold; margin-left: -.25rem;">Bookshelf</span>
+            </h4>
+            <div id="input-search" class="search-wrapper">
+                <input id="iSearch" class="form-input" type="text" placeholder="Cari buku">
+            </div>
+            <div class="header-search-icon">
+                <span onclick="btnSearch(this)">
+                    <svg class="icon line" width="24" height="24" id="search-alt2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" style="fill: none; stroke: rgb(113, 7, 2); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5;"></circle><line x1="21" y1="21" x2="16.66" y2="16.66" style="fill: none; stroke: rgb(113, 7, 2); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5;"></line></svg>
+                    <svg class="icon line none" width="24" height="24" id="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="19" y1="19" x2="5" y2="5" style="fill: none; stroke: rgb(113, 7, 2); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5;"></line><line x1="19" y1="5" x2="5" y2="19" style="fill: none; stroke: rgb(113, 7, 2); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5;"></line></svg>
+                </span>
+            </div>
+        </div>
+    </header>
+    <main class="section-main">
+        <div class="tab-container">
+            <div class="tabs bg-primary">
+                <button class="tablink" onclick="openTab('unfinished', this)" id="defaultOpen">Unfinished</button>
+                <button class="tablink" onclick="openTab('finished', this)">Finished</button>
+            </div>
+        </div>
+
+        <div class="tabcontent-container">
+            <div id="unfinished" class="tabcontent"></div>
+            <div id="finished" class="tabcontent"></div>
+        </div>
+        <div class="container-btn-tambahbuku">
+            <div style="width: 100%; padding: 0 1.5rem;">
+                <button id="btnTambahBuku">tambah buku</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal animate-fadein">
+        <!-- Modal content -->
+        <div class="modal-content rounded-top fixed bottom-0 w-full animate-slidein ">
+            <div class="modal-header">
+                <label id="modal-title" class="font-fraunces" style="color: rgb(113, 7, 2); font-weight: 600; font-size: 1.25rem;">Tambah Buku</label>
+                <span class="close">
+                    <svg class="icon line" width="24" height="24" id="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="19" y1="19" x2="5" y2="5" style="fill: none; stroke: rgb(199, 31, 24); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><line x1="19" y1="5" x2="5" y2="19" style="fill: none; stroke: rgb(199, 31, 24); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line></svg>
+                </span>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form id="input-book" onsubmit="submitForm(event)">
+                        <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%;">
+                            <div class="input-wrapper">
+                                <label for="iTitle">Judul</label>
+                                <input id="iTitle" class="form-input" type="text" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="iPenulis">Penulis</label>
+                                <input id="iPenulis" class="form-input" type="text" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="iTahun">Tahun</label>
+                                <input id="iTahun" class="form-input" type="number" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <input class="styled-checkbox" id="iIsFinished" type="checkbox">
+                                <label for="iIsFinished">Selesai dibaca</label>
+                            </div>
+                            <div class="input-wrapper">
+                                <button type="submit" id="btnSubmit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialogDelete" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content relative top-30 rounded w-80 animate-top">
+            <div class="modal-body">
+                <div style="height: 275px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h2 class="font-fraunces color-primary" style="margin-bottom: 2rem">Hapus Data?</h2>
+                    <div style="display: flex;">
+                        <button id="btnComfirmDelete" onclick="confirmRemove()" style="margin-right: .5rem; width: 75px;">Yes</button>
+                        <button id="btnCancelDelte" onclick="cancelRemove()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toast"></div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
